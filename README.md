@@ -9,4 +9,6 @@ Material do minicurso:
 
 Códigos: veja arquivos `.jl`
 
+Instâncias do problema GAP: veja pasta "GAP"
+
 **Para baixar todo o conteúdo, acesse "Code" -> "Download ZIP"**
