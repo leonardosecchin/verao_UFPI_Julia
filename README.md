@@ -8,3 +8,5 @@ Material do minicurso:
 - [Notebook Jupyter-lab](/minicurso.ipynb)
 
 Códigos: veja arquivos `.jl`
+
+**Para baixar todo o conteúdo, acesse "Code" -> "Download ZIP"**
