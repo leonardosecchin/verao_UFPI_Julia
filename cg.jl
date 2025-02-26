@@ -9,7 +9,7 @@ function cg(A, b, x0; eps = 1e-8, maxiters = 100, saidas = true)
     n = size(A,1)
 
     # aloca vetores na memória
-    x = zeros(n)
+    x = deepcopy(x0)
     r = similar(x)
     p = similar(x)
     w = similar(x)

@@ -50,13 +50,13 @@ function gradiente(nlp; x0 = nothing, eps = 1e-6, eta = 1e-4, maxiters = 100, sa
             break
         end
 
-        f = obj(nlp, x)
-        xnew .= x + t*d
-        fnew = obj(nlp, xnew)
+        t = 1
+        f = obj(nlp, x)   # f(x^k)
+        xnew .= x + t*d   # x^{k+1} = x^k + t*d^k
+        fnew = obj(nlp, xnew)  # f(x^k + t*d^k) = f(x^{k+1})
 
         # Busca linear
-        t = 1
-        gtd = -d'*d
+        gtd = -d'*d    # d = -grad f,  grad f^t*d = -d^t*d
         while fnew > f + eta * t * gtd
             t = t/2
             xnew .= x + t*d
