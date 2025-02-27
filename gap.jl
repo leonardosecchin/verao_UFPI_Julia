@@ -1,4 +1,4 @@
-using GLPK, JuMP
+using GLPK, JuMP, DelimitedFiles
 
 # Lê a primeira instância de um arquivo TXT
 function readGAP(arquivo)
@@ -10,7 +10,7 @@ function readGAP(arquivo)
     w = Int.(dados[ (3+m):(3+2*m-1) , 1:n])
     t = Int.(dados[ 3+2*m , 1:m ])
 
-    return p, w, t
+    return m, n, p, w, t
 end
 
 function solveGAP(p, w, t)
@@ -20,29 +20,25 @@ function solveGAP(p, w, t)
     m, n = size(p)
 
     # Verifica se as dimensões dos dados são compatíveis
-    if (size(a) != (m,n)) | (length(b) != m)
+    if (size(p) != (m,n)) || (size(w) != (m,n)) || (length(t) != m)
         error("Dados com dimensões incompatíveis!")
     end
 
-    # insere variáveis binárias x[i,j]
     @variable(GAP, x[1:m,1:n], Bin)
 
-    # define função objetivo
-    @objective(GAP, Min, sum(c[i,j]*x[i,j] for i in 1:m, j in 1:n))
+    @objective(GAP, Max, sum(p[i,j]*x[i,j] for i in 1:m, j in 1:n))
 
-    # insere restrições de igualdade
-    for j in 1:n
-        @constraint(GAP, sum(x[i,j] for i in 1:m) == 1)
+    for i in 1:m
+        @constraint(GAP, sum(w[i,j]*x[i,j] for j in 1:n) <= t[i])
     end
 
-    # insere restrições de desigualdade
-    for i in 1:m
-        @constraint(GAP, sum(a[i,j]*x[i,j] for j in 1:n) <= b[i])
+    for j in 1:n
+        @constraint(GAP, sum(x[i,j] for i in 1:m) <= 1)
     end
 
     optimize!(GAP)
 
-    if termination_status(P) == OPTIMAL
+    if termination_status(GAP) == OPTIMAL
         # retorna função objetivo e solução
         return objective_value(GAP), value.(x)
     else
