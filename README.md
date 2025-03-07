@@ -2,6 +2,8 @@
 
 ## Escola de Verão 2025 PPGMAT/UFPI
 
+### ATENÇÃO: Acesse a versão atualizada deste tutorial em https://github.com/leonardosecchin/tutorial_Julia
+
 Material do minicurso:
 - [versão HTML](/minicurso.html)
 - [versão PDF](/minicurso.pdf)
